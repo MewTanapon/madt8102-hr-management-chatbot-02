@@ -177,11 +177,12 @@ def main():
 
         google_api_key = st.text_input("Gemini API Key", type="password")
 
-        if not google_api_key:
+        # if not google_api_key:
+        if google_api_key is None:
             st.info("Please add your Gemini API key and Bigquery creditial to continue.", icon="🗝️")
             
         if google_api_key is not None:
-            if st.button("Add Gemine API Key"):
+            if st.button("Add Gemini API Key"):
                 st.success("Gemini API key successfully uploaded.", icon="✅")
 
         with st.sidebar:
