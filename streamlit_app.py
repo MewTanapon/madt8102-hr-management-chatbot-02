@@ -194,92 +194,95 @@ def main():
     #     with st.chat_message(message["role"]):
     #         st.markdown(message["content"])
 
-    if user_input := st.chat_input("What is up?"):
+    try:
+        if user_input := st.chat_input("What is up?"):
 
-        # with st.chat_message("user"):
-        #     st.markdown(user_input)
+            # with st.chat_message("user"):
+            #     st.markdown(user_input)
 
-        st.session_state.messages.append({"role": "user", "content": user_input})
+            st.session_state.messages.append({"role": "user", "content": user_input})
 
-        model = gemini_model(google_api_key=google_api_key)
-        bot_response, bigquery_query = app(model, query=user_input)
+            model = gemini_model(google_api_key=google_api_key)
+            bot_response, bigquery_query = app(model, query=user_input)
 
-        # with st.chat_message("assistant"):
-        #     with st.spinner("Thinking..."):
-        #         st.markdown(bot_response)
+            # with st.chat_message("assistant"):
+            #     with st.spinner("Thinking..."):
+            #         st.markdown(bot_response)
 
-        st.session_state.messages.append({"role": "assistant", "content": bot_response})
-        with st.sidebar:
-            st.code(bigquery_query)
+            st.session_state.messages.append({"role": "assistant", "content": bot_response})
+            with st.sidebar:
+                st.code(bigquery_query)
 
-    chat_css = """
-    <style>
-    .chat-container {
-        display: flex;
-        align-items: flex-start;
-        margin: 10px 0;
-    }
-    .user-message {
-        margin-right: auto;
-        background-color: #fce4ec;
-        color: black;
-        padding: 10px;
-        border-radius: 10px;
-        max-width: 70%;
-    }
-    .assistant-message {
-        margin-left: auto;
-        background-color: #fff9c4;
-        color: black;
-        padding: 10px;
-        border-radius: 10px;
-        max-width: 70%;
-    }
-    .icon {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 40px;
-        height: 40px;
-        background-color: #f5f5f5;
-        border-radius: 50%;
-        font-size: 20px;
-        margin: 0 10px;
-    }
-    .user-container {
-        display: flex;
-        flex-direction: row-reverse;
-        align-items: center;
-    }
-    .assistant-container {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-    }
-    </style>
-    """
-    st.markdown(chat_css, unsafe_allow_html=True)
-    for message in st.session_state.messages:
-        if message["role"] == "user":
-            st.markdown(
-                f"""
-                <div class="chat-container user-container">
-                    <div class="user-message">{message['content']}</div>
-                    <div class="icon">👤</div>
-                </div>
-                """,
-                unsafe_allow_html=True,
-            )
-        else:
-            st.markdown(
-                f"""
-                <div class="chat-container assistant-container">
-                    <div class="icon">🤖</div>
-                    <div class="assistant-message">{message['content']}</div>
-                </div>
-                """,
-                unsafe_allow_html=True,
-            )
+        chat_css = """
+        <style>
+        .chat-container {
+            display: flex;
+            align-items: flex-start;
+            margin: 10px 0;
+        }
+        .user-message {
+            margin-right: auto;
+            background-color: #fce4ec;
+            color: black;
+            padding: 10px;
+            border-radius: 10px;
+            max-width: 70%;
+        }
+        .assistant-message {
+            margin-left: auto;
+            background-color: #fff9c4;
+            color: black;
+            padding: 10px;
+            border-radius: 10px;
+            max-width: 70%;
+        }
+        .icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: #f5f5f5;
+            border-radius: 50%;
+            font-size: 20px;
+            margin: 0 10px;
+        }
+        .user-container {
+            display: flex;
+            flex-direction: row-reverse;
+            align-items: center;
+        }
+        .assistant-container {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+        }
+        </style>
+        """
+        st.markdown(chat_css, unsafe_allow_html=True)
+        for message in st.session_state.messages:
+            if message["role"] == "user":
+                st.markdown(
+                    f"""
+                    <div class="chat-container user-container">
+                        <div class="user-message">{message['content']}</div>
+                        <div class="icon">👤</div>
+                    </div>
+                    """,
+                    unsafe_allow_html=True,
+                )
+            else:
+                st.markdown(
+                    f"""
+                    <div class="chat-container assistant-container">
+                        <div class="icon">🤖</div>
+                        <div class="assistant-message">{message['content']}</div>
+                    </div>
+                    """,
+                    unsafe_allow_html=True,
+                )
+    except:
+        st.info("Please make sure you have already added Bigquery creditial and Gemini API key to continue.", icon="🗝️")
 
 if __name__ == '__main__':
     main()
