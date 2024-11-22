@@ -282,7 +282,7 @@ def main():
                     unsafe_allow_html=True,
                 )
     except:
-        st.info("Please make sure you have already added Bigquery creditial and Gemini API key to continue.", icon="🗝️")
+        st.markdown("🗝️Please make sure you have already added Bigquery creditial and Gemini API key to continue.")
 
 if __name__ == '__main__':
     main()
